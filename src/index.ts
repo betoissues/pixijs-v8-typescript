@@ -14,18 +14,6 @@ declare global {
         resolution: window.devicePixelRatio,
         antialias: true,
     });
-    await setup();
-
-    async function setup() {
-        Game2D.app.ticker.add((ticker) => {
-            Game2D.gameLoop(ticker)
-        });
-        Game2D.resizeCanvas();
-        window.addEventListener('keydown', (e) => {
-            Game2D.keyDownHandler(e.code);
-        });
-    }
-
     function end() {
     }
 })();

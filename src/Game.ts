@@ -1,17 +1,18 @@
 import { Application, Assets, ApplicationOptions, Container, Sprite, Ticker } from 'pixi.js';
 import { Player } from './Player';
-import { StartScene } from './StartScene';
 import { Config } from './Config';
 import { Direction } from './enums';
+import { SceneManager } from './SceneManager';
 
 class Game {
-    scene!: StartScene;
+    app: Application;
     mainPlayer!: Player;
     keys: {};
-    app: Application;
+    scenes: SceneManager;
 
     constructor() {
         this.app = new Application();
+        this.scenes = new SceneManager();
         this.keys = {
             up: { pressed: false, timestamp: 0 },
             left: { pressed: false, timestamp: 0 },
@@ -21,14 +22,14 @@ class Game {
         };
     }
 
-    async init(config?: Partial<ApplicationOptions>|undefined) {
-        await this.app.init(config);
+    async init(initConfig?: Partial<ApplicationOptions>|undefined) {
+        await this.app.init(initConfig);
         window.addEventListener("resize", () => {
             this.resizeCanvas();
         });
         document.getElementById("game")!.appendChild(this.app.canvas);
 
-        this.scene = new StartScene();
+        this.scenes.start("StartScene");
 
         const ssheet = await Assets.load("./assets/sprite.json");
         this.mainPlayer = new Player(ssheet.textures.sprite4, {
@@ -36,8 +37,13 @@ class Game {
             y: 8,
         });
 
-        this.scene.container.addChild(this.mainPlayer);
-        this.app.stage.addChild(this.scene.container);
+        this.scenes.container.addChild(this.mainPlayer);
+        this.app.stage.addChild(this.scenes.container);
+
+        this.resizeCanvas();
+        window.addEventListener('keydown', (e) => {
+            this.keyDownHandler(e.code);
+        });
     }
 
     addChild(child: Container) {

@@ -12,8 +12,8 @@ export class Player extends Actor {
     move(direction: Direction, speed: PosXY) {
         this.x += speed.x * Config.MOVE_STEP;
         this.y += speed.y * Config.MOVE_STEP;
-        this.tileX += speed.x;
-        this.tileY += speed.y;
+        this.tilePos.x += speed.x;
+        this.tilePos.y += speed.y;
         this.direction = direction;
     }
 }

@@ -5,8 +5,7 @@ import { Direction } from './enums';
 
 export class Actor extends Container {
     sprite: Sprite;
-    tileX: number;
-    tileY: number;
+    tilePos: PosXY;
     direction: Direction;
     constructor(spriteFile: string, position: PosXY) {
         super();
@@ -16,8 +15,7 @@ export class Actor extends Container {
         this.setSize(Config.TILE_SIZE);
 
         this.addChild(this.sprite);
-        this.tileX = position.x;
-        this.tileY = position.y;
+        this.tilePos = position;
         this.direction = Direction.DOWN;
     }
 }
@@ -32,8 +30,8 @@ export class Player {
     move(direction: Direction, speed: PosXY) {
         this.actor.x += speed.x * Config.MOVE_STEP;
         this.actor.y += speed.y * Config.MOVE_STEP;
-        this.actor.tileX += speed.x;
-        this.actor.tileY += speed.y;
+        this.actor.tilePos.x += speed.x;
+        this.actor.tilePos.y += speed.y;
         this.actor.direction = direction;
     }
 }

@@ -1,8 +1,7 @@
-import { Container } from 'pixi.js';
+import { Scene } from './Scene';
 
-export class StartScene {
-    container: Container;
+export class StartScene extends Scene {
     constructor() {
-        this.container = new Container();
+        super();
     }
 }
