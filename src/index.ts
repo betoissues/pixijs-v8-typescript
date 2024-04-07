@@ -1,12 +1,11 @@
-import { Config } from "./config";
-import { Game } from "./Game";
+import { Config } from './Config';
+import { Game2D } from './Game';
 
 declare global {
-    var __PIXI_APP__: Game;
+    var __PIXI_APP__: typeof Game2D;
 }
 
 (async () => {
-    const Game2D: Game = new Game();
     globalThis.__PIXI_APP__  = Game2D;
     await Game2D.init({
         background: "#032d79",
@@ -18,7 +17,7 @@ declare global {
     await setup();
 
     async function setup() {
-        Game2D.ticker.add((ticker) => {
+        Game2D.app.ticker.add((ticker) => {
             Game2D.gameLoop(ticker)
         });
         Game2D.resizeCanvas();

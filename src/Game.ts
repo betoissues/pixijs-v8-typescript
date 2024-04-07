@@ -1,16 +1,17 @@
 import { Application, Assets, ApplicationOptions, Container, Sprite, Ticker } from 'pixi.js';
-import { Player } from './actor';
-import { MapGrid } from './MapGrid';
-import { Config } from './config';
+import { Player } from './Player';
+import { StartScene } from './StartScene';
+import { Config } from './Config';
 import { Direction } from './enums';
 
-export class Game extends Application {
-    grid!: MapGrid;
+class Game {
+    scene!: StartScene;
     mainPlayer!: Player;
     keys: {};
+    app: Application;
 
     constructor() {
-        super()
+        this.app = new Application();
         this.keys = {
             up: { pressed: false, timestamp: 0 },
             left: { pressed: false, timestamp: 0 },
@@ -20,14 +21,14 @@ export class Game extends Application {
         };
     }
 
-    override async init(config?: Partial<ApplicationOptions>|undefined) {
-        await super.init(config);
+    async init(config?: Partial<ApplicationOptions>|undefined) {
+        await this.app.init(config);
         window.addEventListener("resize", () => {
             this.resizeCanvas();
         });
-        document.getElementById("game")!.appendChild(this.canvas);
+        document.getElementById("game")!.appendChild(this.app.canvas);
 
-        this.grid = new MapGrid();
+        this.scene = new StartScene();
 
         const ssheet = await Assets.load("./assets/sprite.json");
         this.mainPlayer = new Player(ssheet.textures.sprite4, {
@@ -35,12 +36,12 @@ export class Game extends Application {
             y: 8,
         });
 
-        this.grid.addChild(this.mainPlayer);
-        this.addChild(this.grid);
+        this.scene.container.addChild(this.mainPlayer);
+        this.app.stage.addChild(this.scene.container);
     }
 
-    addChild(child: Container|Sprite) {
-        this.stage.addChild(child);
+    addChild(child: Container) {
+        this.app.stage.addChild(child);
     }
 
     keyDownHandler(key: string) {
@@ -65,7 +66,7 @@ export class Game extends Application {
     }
 
     gameLoop(ticker: Ticker) {
-        // User ticker.deltaTime
+        // Use ticker.deltaTime to normalize loop
     }
 
     resizeCanvas() {
@@ -81,12 +82,12 @@ export class Game extends Application {
 
         // scale factor
         const scale = Math.min(
-            screenWidth / this.canvas.width,
-            screenHeight / this.canvas.height,
+            screenWidth / this.app.canvas.width,
+            screenHeight / this.app.canvas.height,
         );
 
-        let enlargedWidth;
-        let enlargedHeight;
+        let enlargedWidth: number;
+        let enlargedHeight: number;
 
         if (scale >= 1) {
             enlargedWidth = Math.floor(Config.TILE_SIZE * Config.TILE_X);
@@ -101,11 +102,14 @@ export class Game extends Application {
         const verticalMargin = (screenHeight - enlargedHeight) / 2;
 
         // reset css properties
-        this.canvas.style.width = `${enlargedWidth}px`;
-        this.canvas.style.height = `${enlargedHeight}px`;
-        this.canvas.style.marginLeft =
-            this.canvas.style.marginRight = `${horizontalMargin}px`;
-        this.canvas.style.marginTop =
-            this.canvas.style.marginBottom = `${verticalMargin}px`;
+        this.app.canvas.style.width = `${enlargedWidth}px`;
+        this.app.canvas.style.height = `${enlargedHeight}px`;
+        this.app.canvas.style.marginLeft =
+            this.app.canvas.style.marginRight = `${horizontalMargin}px`;
+        this.app.canvas.style.marginTop =
+            this.app.canvas.style.marginBottom = `${verticalMargin}px`;
     }
 }
+
+// Singleton Game
+export const Game2D = new Game();

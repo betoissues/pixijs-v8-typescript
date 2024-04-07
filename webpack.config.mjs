@@ -1,8 +1,8 @@
-import path from "path";
-import CopyPlugin from "copy-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
-import { fileURLToPath } from "url";
+import path from 'path';
+import CopyPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default (argv) => {
@@ -32,7 +32,7 @@ export default (argv) => {
 
         performance: { hints: false },
 
-        devtool: argv.mode === 'development' ? 'source-source-map' : undefined,
+        devtool: argv.mode === 'development' ? 'eval-source-map' : undefined,
 
         optimization: {
             minimize: argv.mode === 'production',

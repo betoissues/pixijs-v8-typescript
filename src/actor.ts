@@ -1,5 +1,5 @@
 import { Container, Sprite } from 'pixi.js';
-import { Config } from './config';
+import { Config } from './Config';
 import { PosXY } from './types';
 import { Direction } from './enums';
 
@@ -22,17 +22,18 @@ export class Actor extends Container {
     }
 }
 
-export class Player extends Actor {
+export class Player {
+    actor: Actor;
     constructor(spriteFile: string, position: PosXY) {
-        super(spriteFile, position);
-        this.interactive = true;
+        this.actor = new Actor(spriteFile, position);
+        this.actor.interactive = true;
     }
 
     move(direction: Direction, speed: PosXY) {
-        this.x += speed.x * Config.MOVE_STEP;
-        this.y += speed.y * Config.MOVE_STEP;
-        this.tileX += speed.x;
-        this.tileY += speed.y;
-        this.direction = direction;
+        this.actor.x += speed.x * Config.MOVE_STEP;
+        this.actor.y += speed.y * Config.MOVE_STEP;
+        this.actor.tileX += speed.x;
+        this.actor.tileY += speed.y;
+        this.actor.direction = direction;
     }
 }

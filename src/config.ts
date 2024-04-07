@@ -1,3 +1,4 @@
+// @TODO: Use different config loading
 export const Config = {
     MOVE_STEP: 32,
     TILE_SIZE: 32,
