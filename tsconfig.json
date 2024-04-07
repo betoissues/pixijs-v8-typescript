@@ -21,7 +21,6 @@
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true
-
     },
     // Folder for your code
     "include": [

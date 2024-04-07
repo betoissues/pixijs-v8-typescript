@@ -1,21 +1,20 @@
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+import path from "path";
+import CopyPlugin from "copy-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// @TODO: Fix sourcemaps on Firefox
-
-module.exports = (argv) => {
+export default (argv) => {
     return ({
-        stats: 'minimal', // Keep console output easy to read.
-        entry: './src/index.ts', // Your program entry point
+        stats: 'minimal',
+        entry: './src/index.ts',
 
         output: {
             path: path.resolve(__dirname, 'dist'),
             filename: 'bundle.js'
         },
 
-        // Config for your testing server
         devServer: {
             compress: true,
             allowedHosts: "all", // If you are using WebpackDevServer as your production server, please fix this line!
@@ -33,7 +32,7 @@ module.exports = (argv) => {
 
         performance: { hints: false },
 
-        devtool: argv.mode === 'development' ? 'source-map' : undefined,
+        devtool: argv.mode === 'development' ? 'source-source-map' : undefined,
 
         optimization: {
             minimize: argv.mode === 'production',
@@ -50,7 +49,7 @@ module.exports = (argv) => {
         module: {
             rules: [
                 {
-                    test: /\.ts(x)?$/,
+                    test: /\.[t]s(x)?$/,
                     loader: 'ts-loader',
                     exclude: /node_modules/
                 }
