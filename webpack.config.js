@@ -11,7 +11,7 @@ module.exports = (argv) => {
         entry: './src/index.ts', // Your program entry point
 
         output: {
-            path: 'dist',
+            path: path.resolve(__dirname, 'dist'),
             filename: 'bundle.js'
         },
 
