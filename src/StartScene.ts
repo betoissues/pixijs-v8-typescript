@@ -4,7 +4,7 @@ import { Scene } from './Scene';
 export class StartScene extends Scene {
     constructor() {
         super();
-        this.container.name = "StartScene";
+        this.container.label = "StartScene";
     }
 
     override update(ticker: Ticker) {

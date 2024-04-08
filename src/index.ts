@@ -14,6 +14,4 @@ declare global {
         resolution: window.devicePixelRatio,
         antialias: true,
     });
-    function end() {
-    }
 })();
