@@ -7,19 +7,10 @@ import { SceneManager } from './SceneManager';
 class Game {
     app: Application;
     mainPlayer!: Player;
-    keys: {};
-    scenes: SceneManager;
+    scenes!: SceneManager;
 
     constructor() {
         this.app = new Application();
-        this.scenes = new SceneManager();
-        this.keys = {
-            up: { pressed: false, timestamp: 0 },
-            left: { pressed: false, timestamp: 0 },
-            down: { pressed: false,  timestamp: 0 },
-            right: { pressed: false,  timestamp: 0 },
-            space: { pressed: false, timestamp: 0 },
-        };
     }
 
     async init(initConfig?: Partial<ApplicationOptions>|undefined) {
@@ -29,6 +20,8 @@ class Game {
         });
         document.getElementById("game")!.appendChild(this.app.canvas);
 
+        this.scenes = new SceneManager();
+        this.app.stage.addChild(this.scenes.container);
         this.scenes.start("StartScene");
 
         const ssheet = await Assets.load("./assets/sprite.json");

@@ -1,4 +1,4 @@
-import { Container } from 'pixi.js';
+import { Container, Ticker } from 'pixi.js';
 import { Game2D } from './Game';
 
 export class Scene {
@@ -12,7 +12,7 @@ export class Scene {
     }
 
     create() {}
-    update() {}
+    update(ticker: Ticker) {}
     destroy() {}
 
     remove() {
