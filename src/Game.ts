@@ -33,10 +33,11 @@ class Game {
         this.scenes.container.addChild(this.mainPlayer);
         this.app.stage.addChild(this.scenes.container);
 
-        this.resizeCanvas();
         window.addEventListener('keydown', (e) => {
             this.keyDownHandler(e.code);
         });
+
+        this.resizeCanvas();
     }
 
     addChild(child: Container) {
@@ -69,6 +70,7 @@ class Game {
     }
 
     resizeCanvas() {
+        const ratio = window.devicePixelRatio;
         // screen size
         const screenWidth = Math.max(
             document.documentElement.clientWidth,
@@ -88,25 +90,17 @@ class Game {
         let enlargedWidth: number;
         let enlargedHeight: number;
 
-        if (scale >= 1) {
+        if ((scale * ratio) >= 1) {
             enlargedWidth = Math.floor(Config.TILE_SIZE * Config.TILE_X);
             enlargedHeight = Math.floor(Config.TILE_SIZE * Config.TILE_Y);
         } else {
-            enlargedWidth = Math.floor(scale * Config.TILE_SIZE * Config.TILE_X);
-            enlargedHeight = Math.floor(scale * Config.TILE_SIZE * Config.TILE_Y);
+            enlargedWidth = Math.floor(scale * Config.TILE_SIZE * Config.TILE_X * ratio);
+            enlargedHeight = Math.floor(scale * Config.TILE_SIZE * Config.TILE_Y * ratio);
         }
-
-        // margins for centering
-        const horizontalMargin = (screenWidth - enlargedWidth) / 2;
-        const verticalMargin = (screenHeight - enlargedHeight) / 2;
 
         // reset css properties
         this.app.canvas.style.width = `${enlargedWidth}px`;
         this.app.canvas.style.height = `${enlargedHeight}px`;
-        this.app.canvas.style.marginLeft =
-            this.app.canvas.style.marginRight = `${horizontalMargin}px`;
-        this.app.canvas.style.marginTop =
-            this.app.canvas.style.marginBottom = `${verticalMargin}px`;
     }
 }
 
